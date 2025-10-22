@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }} - PyTasker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Task Header -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="flex-grow-1">
+                        <h1 class="h3 mb-2">{{ task.title }}</h1>
+                        <div class="d-flex gap-2 mb-2">
+                            {% if task.status == 'To Do' %}
+                                <span class="badge bg-warning fs-6">
+                                    <i class="bi bi-clock me-1"></i>{{ task.status }}
+                                </span>
+                            {% elif task.status == 'In Progress' %}
+                                <span class="badge bg-info fs-6">
+                                    <i class="bi bi-arrow-repeat me-1"></i>{{ task.status }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success fs-6">
+                                    <i class="bi bi-check-circle me-1"></i>{{ task.status }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if task.priority == 'Critical' %}
+                                <span class="badge bg-danger fs-6">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>{{ task.priority }}
+                                </span>
+                            {% elif task.priority == 'High' %}
+                                <span class="badge bg-warning fs-6">
+                                    <i class="bi bi-arrow-up me-1"></i>{{ task.priority }}
+                                </span>
+                            {% elif task.priority == 'Medium' %}
+                                <span class="badge bg-secondary fs-6">
+                                    <i class="bi bi-dash me-1"></i>{{ task.priority }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-light text-dark fs-6">
+                                    <i class="bi bi-arrow-down me-1"></i>{{ task.priority }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="text-muted small">
+                            {% if task.assigned_user %}
+                            <i class="bi bi-person me-1"></i>Assigned to: <strong>{{ task.assigned_user.username }}</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if current_user.is_authenticated and task.user_id == current_user.id %}
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('main.edit_task', task_id=task.id) }}" 
+                           class="btn btn-outline-primary">
+                            <i class="bi bi-pencil me-1"></i>Edit
+                        </a>
+                        <button type="button" class="btn btn-outline-danger" 
+                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Task Content -->
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Description -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-file-text me-2"></i>Description
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if task.description %}
+                            <p class="mb-0" style="white-space: pre-wrap;">{{ task.description }}</p>
+                        {% else %}
+                            <p class="text-muted mb-0">
+                                <em>No description provided for this task.</em>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <!-- Task Details -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Status:</label>
+                            {% if task.status == 'To Do' %}
+                                <span class="badge bg-warning ms-2">{{ task.status }}</span>
+                            {% elif task.status == 'In Progress' %}
+                                <span class="badge bg-info ms-2">{{ task.status }}</span>
+                            {% else %}
+                                <span class="badge bg-success ms-2">{{ task.status }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Priority:</label>
+                            {% if task.priority == 'Critical' %}
+                                <span class="badge bg-danger ms-2">{{ task.priority }}</span>
+                            {% elif task.priority == 'High' %}
+                                <span class="badge bg-warning ms-2">{{ task.priority }}</span>
+                            {% elif task.priority == 'Medium' %}
+                                <span class="badge bg-secondary ms-2">{{ task.priority }}</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark ms-2">{{ task.priority }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Created:</label>
+                            <div class="small">{{ task.created_at.strftime('%B %d, %Y at %H:%M') }}</div>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label class="form-label fw-bold">Last Updated:</label>
+                            <div class="small">{{ task.updated_at.strftime('%B %d, %Y at %H:%M') }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                {% if current_user.is_authenticated and task.user_id == current_user.id %}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-lightning me-2"></i>Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            {% if task.status == 'To Do' %}
+                            <form method="POST" action="{{ url_for('main.edit_task', task_id=task.id) }}" class="d-inline">
+                                <input type="hidden" name="title" value="{{ task.title }}">
+                                <input type="hidden" name="description" value="{{ task.description }}">
+                                <input type="hidden" name="priority" value="{{ task.priority }}">
+                                <input type="hidden" name="status" value="In Progress">
+                                <button type="submit" class="btn btn-info btn-sm w-100">
+                                    <i class="bi bi-play me-1"></i>Start Working
+                                </button>
+                            </form>
+                            {% elif task.status == 'In Progress' %}
+                            <form method="POST" action="{{ url_for('main.edit_task', task_id=task.id) }}" class="d-inline">
+                                <input type="hidden" name="title" value="{{ task.title }}">
+                                <input type="hidden" name="description" value="{{ task.description }}">
+                                <input type="hidden" name="priority" value="{{ task.priority }}">
+                                <input type="hidden" name="status" value="Done">
+                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                    <i class="bi bi-check-circle me-1"></i>Mark Complete
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="mt-4">
+            <a href="{{ url_for('main.tasks') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Tasks
+            </a>
+        </div>
+        
+        <!-- Delete Modal -->
+        {% if current_user.is_authenticated and task.user_id == current_user.id %}
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete the task <strong>"{{ task.title }}"</strong>?</p>
+                        <p class="text-muted mb-0">This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="POST" action="{{ url_for('main.delete_task', task_id=task.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete Task
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

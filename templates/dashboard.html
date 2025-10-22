@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - PyTasker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                {% if current_user.is_authenticated %}
+                <small class="text-muted">Welcome back, {{ current_user.username }}!</small>
+                {% endif %}
+            </h1>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('main.new_task') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>New Task
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="card border-0 bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-list-check fs-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h3 class="card-title mb-0">{{ total_tasks }}</h3>
+                        <p class="card-text mb-0">Total Tasks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 col-sm-6">
+        <div class="card border-0 bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-clock fs-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h3 class="card-title mb-0">{{ todo_tasks }}</h3>
+                        <p class="card-text mb-0">To Do</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 col-sm-6">
+        <div class="card border-0 bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-arrow-repeat fs-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h3 class="card-title mb-0">{{ in_progress_tasks }}</h3>
+                        <p class="card-text mb-0">In Progress</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 col-sm-6">
+        <div class="card border-0 bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-check-circle fs-2"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h3 class="card-title mb-0">{{ done_tasks }}</h3>
+                        <p class="card-text mb-0">Done</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Bar -->
+{% if total_tasks > 0 %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Progress Overview</h5>
+                <div class="progress" style="height: 25px;">
+                    {% set todo_percent = (todo_tasks / total_tasks * 100) %}
+                    {% set progress_percent = (in_progress_tasks / total_tasks * 100) %}
+                    {% set done_percent = (done_tasks / total_tasks * 100) %}
+                    
+                    <div class="progress-bar bg-warning" style="width: {{ todo_percent }}%" title="To Do: {{ todo_tasks }}">
+                        {% if todo_percent >= 15 %}{{ todo_tasks }}{% endif %}
+                    </div>
+                    <div class="progress-bar bg-info" style="width: {{ progress_percent }}%" title="In Progress: {{ in_progress_tasks }}">
+                        {% if progress_percent >= 15 %}{{ in_progress_tasks }}{% endif %}
+                    </div>
+                    <div class="progress-bar bg-success" style="width: {{ done_percent }}%" title="Done: {{ done_tasks }}">
+                        {% if done_percent >= 15 %}{{ done_tasks }}{% endif %}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <small class="text-muted">
+                        <span class="badge bg-warning me-2">To Do</span>
+                        <span class="badge bg-info me-2">In Progress</span>
+                        <span class="badge bg-success">Done</span>
+                    </small>
+                    <small class="text-muted">
+                        {{ "%.1f"|format(done_percent) }}% Complete
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recent Tasks -->
+{% if current_user.is_authenticated and recent_tasks %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-clock-history me-2"></i>Recent Tasks
+                </h5>
+                <a href="{{ url_for('main.tasks') }}" class="btn btn-outline-primary btn-sm">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for task in recent_tasks %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                    <a href="{{ url_for('main.task_detail', task_id=task.id) }}" 
+                                       class="text-decoration-none">{{ task.title }}</a>
+                                </h6>
+                                {% if task.description %}
+                                <p class="mb-1 text-muted">{{ task.description[:100] }}{% if task.description|length > 100 %}...{% endif %}</p>
+                                {% endif %}
+                                <small class="text-muted">
+                                    Updated {{ task.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                                </small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                {% if task.status == 'To Do' %}
+                                    <span class="badge bg-warning me-2">{{ task.status }}</span>
+                                {% elif task.status == 'In Progress' %}
+                                    <span class="badge bg-info me-2">{{ task.status }}</span>
+                                {% else %}
+                                    <span class="badge bg-success me-2">{{ task.status }}</span>
+                                {% endif %}
+                                
+                                {% if task.priority == 'Critical' %}
+                                    <span class="badge bg-danger">{{ task.priority }}</span>
+                                {% elif task.priority == 'High' %}
+                                    <span class="badge bg-warning">{{ task.priority }}</span>
+                                {% elif task.priority == 'Medium' %}
+                                    <span class="badge bg-secondary">{{ task.priority }}</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark">{{ task.priority }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+{% if not current_user.is_authenticated %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <h5 class="card-title">Get Started with PyTasker</h5>
+                <p class="card-text">Sign up to create and manage your own tasks!</p>
+                <div class="d-flex gap-2 justify-content-center">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+                        <i class="bi bi-person-plus me-1"></i>Sign Up
+                    </a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

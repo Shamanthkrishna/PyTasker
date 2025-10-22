@@ -1,0 +1,229 @@
+/* PyTasker Custom Styles */
+
+:root {
+    --bs-primary: #0d6efd;
+    --bs-primary-rgb: 13, 110, 253;
+    --task-card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --task-card-hover-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme variables */
+[data-bs-theme="dark"] {
+    --bs-primary: #6ea8fe;
+    --bs-primary-rgb: 110, 168, 254;
+}
+
+/* Body and layout */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Custom card styling */
+.card {
+    box-shadow: var(--task-card-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: var(--task-card-hover-shadow);
+}
+
+/* Task status badges */
+.badge {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.badge.fs-6 {
+    font-size: 0.875rem !important;
+}
+
+/* Priority indicators */
+.priority-critical {
+    border-left: 4px solid #dc3545;
+}
+
+.priority-high {
+    border-left: 4px solid #fd7e14;
+}
+
+.priority-medium {
+    border-left: 4px solid #6c757d;
+}
+
+.priority-low {
+    border-left: 4px solid #198754;
+}
+
+/* Task list styling */
+.task-item {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.task-item:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
+[data-bs-theme="dark"] .task-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Form styling */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Progress bars */
+.progress {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .progress {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Navigation */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Dark mode toggle */
+#theme-toggle {
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Statistics cards */
+.stats-card {
+    border-radius: 0.75rem;
+    border: none;
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.stats-card i {
+    opacity: 0.8;
+}
+
+/* Task detail page */
+.task-detail .task-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .table-responsive {
+        border-radius: 0.375rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .navbar .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .btn,
+    .modal,
+    footer {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .badge {
+        border: 1px solid #000;
+        color: #000 !important;
+        background: transparent !important;
+    }
+}

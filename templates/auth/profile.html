@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - PyTasker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-circle me-2"></i>User Profile
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Account Information</h5>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Username:</label>
+                            <p class="mb-1">{{ current_user.username }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email:</label>
+                            <p class="mb-1">{{ current_user.email }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Member since:</label>
+                            <p class="mb-1">{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5>Task Statistics</h5>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Total Tasks:</label>
+                            <p class="mb-1">{{ task_stats.total }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">To Do:</label>
+                            <p class="mb-1">
+                                <span class="badge bg-warning">{{ task_stats.todo }}</span>
+                            </p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">In Progress:</label>
+                            <p class="mb-1">
+                                <span class="badge bg-info">{{ task_stats.in_progress }}</span>
+                            </p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Completed:</label>
+                            <p class="mb-1">
+                                <span class="badge bg-success">{{ task_stats.done }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Visualization -->
+                {% if task_stats.total > 0 %}
+                <hr>
+                <h5>Progress Overview</h5>
+                <div class="progress mb-3" style="height: 25px;">
+                    {% set todo_percent = (task_stats.todo / task_stats.total * 100) %}
+                    {% set progress_percent = (task_stats.in_progress / task_stats.total * 100) %}
+                    {% set done_percent = (task_stats.done / task_stats.total * 100) %}
+                    
+                    <div class="progress-bar bg-warning" style="width: {{ todo_percent }}%" title="To Do: {{ task_stats.todo }}">
+                        {% if todo_percent >= 15 %}{{ task_stats.todo }}{% endif %}
+                    </div>
+                    <div class="progress-bar bg-info" style="width: {{ progress_percent }}%" title="In Progress: {{ task_stats.in_progress }}">
+                        {% if progress_percent >= 15 %}{{ task_stats.in_progress }}{% endif %}
+                    </div>
+                    <div class="progress-bar bg-success" style="width: {{ done_percent }}%" title="Done: {{ task_stats.done }}">
+                        {% if done_percent >= 15 %}{{ task_stats.done }}{% endif %}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">
+                        <span class="badge bg-warning me-2">To Do</span>
+                        <span class="badge bg-info me-2">In Progress</span>
+                        <span class="badge bg-success">Done</span>
+                    </small>
+                    <small class="text-muted">
+                        {{ "%.1f"|format(done_percent) }}% Complete
+                    </small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-lightning me-2"></i>Quick Actions
+                </h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{{ url_for('main.new_task') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Create New Task
+                    </a>
+                    <a href="{{ url_for('main.tasks') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-list-task me-1"></i>View All Tasks
+                    </a>
+                    <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

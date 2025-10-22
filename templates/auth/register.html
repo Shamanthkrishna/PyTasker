@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Register - PyTasker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h3 class="card-title">
+                        <i class="bi bi-person-plus me-2"></i>Create Account
+                    </h3>
+                    <p class="text-muted">Join PyTasker to manage your tasks</p>
+                </div>
+                
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="username" name="username" 
+                               required placeholder="Choose a username" minlength="3" maxlength="80">
+                        <div class="form-text">3-80 characters, letters, numbers, and underscores only</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               required placeholder="Enter your email address">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" name="password" 
+                               required placeholder="Create a password" minlength="6">
+                        <div class="form-text">At least 6 characters</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" 
+                               required placeholder="Confirm your password">
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-person-plus me-1"></i>Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-0">Already have an account?</p>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password confirmation validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+
+document.getElementById('password').addEventListener('input', function() {
+    const confirmPassword = document.getElementById('confirm_password');
+    if (confirmPassword.value) {
+        confirmPassword.dispatchEvent(new Event('input'));
+    }
+});
+</script>
+{% endblock %}
