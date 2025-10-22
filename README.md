@@ -49,8 +49,8 @@ A modern, responsive task management web application built with Flask, similar t
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/pytasker.git
-   cd pytasker
+   git clone https://github.com/Shamanthkrishna/PyTasker.git
+   cd PyTasker
    ```
 
 2. **Create virtual environment**
@@ -265,7 +265,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Shamanth Krishna** - *Initial work* - [Shamanthkrishna](https://github.com/Shamanthkrishna)
 
 ## 🙏 Acknowledgments
 
@@ -278,7 +278,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/pytasker/issues) page
+1. Check the [Issues](https://github.com/Shamanthkrishna/PyTasker/issues) page
 2. Create a new issue if needed
 3. Contact: your.email@example.com
 
