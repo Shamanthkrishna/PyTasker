@@ -8,10 +8,12 @@
 }
 
 /* Dark theme variables */
+/*
 [data-bs-theme="dark"] {
     --bs-primary: #6ea8fe;
     --bs-primary-rgb: 110, 168, 254;
 }
+*/
 
 /* Body and layout */
 body {
@@ -71,9 +73,11 @@ main {
     background-color: rgba(0, 0, 0, 0.025);
 }
 
+/*
 [data-bs-theme="dark"] .task-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
+*/
 
 /* Form styling */
 .form-control:focus,
@@ -87,9 +91,11 @@ main {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+/*
 [data-bs-theme="dark"] .progress {
     background-color: rgba(255, 255, 255, 0.1);
 }
+*/
 
 /* Navigation */
 .navbar-brand {
@@ -98,6 +104,7 @@ main {
 }
 
 /* Dark mode toggle */
+/*
 #theme-toggle {
     border: none;
     background: transparent;
@@ -107,6 +114,7 @@ main {
 #theme-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+*/
 
 /* Statistics cards */
 .stats-card {
@@ -199,6 +207,7 @@ main {
     background: rgba(0, 0, 0, 0.5);
 }
 
+/*
 [data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
 }
@@ -206,6 +215,7 @@ main {
 [data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.5);
 }
+*/
 
 /* Print styles */
 @media print {

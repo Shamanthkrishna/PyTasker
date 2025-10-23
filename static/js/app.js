@@ -1,7 +1,7 @@
 // TaskMate JavaScript Application
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize dark mode
-    initializeTheme();
+    // Initialize dark mode - DISABLED
+    // initializeTheme();
     
     // Add fade-in animation to main content
     document.querySelector('main').classList.add('fade-in');
@@ -17,8 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Theme Management
+ * Theme Management - DISABLED
  */
+/*
 function initializeTheme() {
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
@@ -54,6 +55,7 @@ function initializeTheme() {
         currentTheme = theme;
     }
 }
+*/
 
 /**
  * Task Management Functions
