@@ -1,4 +1,4 @@
-# PyTasker .gitignore
+# TaskMate .gitignore
 
 # Python
 __pycache__/
@@ -175,6 +175,6 @@ local.properties
 tmp/
 temp/
 
-# PyTasker specific
+# TaskMate specific
 uploads/
 instance/config.py

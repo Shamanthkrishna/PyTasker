@@ -1,4 +1,4 @@
-// PyTasker JavaScript Application
+// TaskMate JavaScript Application
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize dark mode
     initializeTheme();
@@ -297,4 +297,4 @@ function announceToScreenReader(message) {
     }, 1000);
 }
 
-console.log('PyTasker JavaScript loaded successfully');
+console.log('TaskMate JavaScript loaded successfully');

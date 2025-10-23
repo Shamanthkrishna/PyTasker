@@ -1,8 +1,8 @@
-# 🧠 PyTasker
+# 🎯 TaskMate
 
 A modern, responsive task management web application built with Flask, similar to Jira but simplified for personal and team use.
 
-![PyTasker Logo](https://via.placeholder.com/150x60/0d6efd/ffffff?text=PyTasker)
+![TaskMate Logo](https://via.placeholder.com/150x60/4f46e5/ffffff?text=TaskMate)
 
 ## ✨ Features
 
@@ -49,8 +49,8 @@ A modern, responsive task management web application built with Flask, similar t
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Shamanthkrishna/PyTasker.git
-   cd PyTasker
+   git clone https://github.com/Shamanthkrishna/TaskMate.git
+   cd TaskMate
    ```
 
 2. **Create virtual environment**
@@ -84,7 +84,7 @@ A modern, responsive task management web application built with Flask, similar t
 ## 📁 Project Structure
 
 ```
-pytasker/
+taskmate/
 ├── app.py                 # Main Flask application
 ├── models.py              # Database models (User, Task)
 ├── requirements.txt       # Python dependencies
@@ -203,8 +203,8 @@ fetch('/api/tasks', {
 
 2. **Build and run**
    ```bash
-   docker build -t pytasker .
-   docker run -p 5000:5000 pytasker
+   docker build -t taskmate .
+   docker run -p 5000:5000 taskmate
    ```
 
 ### Production Deployment
@@ -278,10 +278,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/Shamanthkrishna/PyTasker/issues) page
+1. Check the [Issues](https://github.com/Shamanthkrishna/TaskMate/issues) page
 2. Create a new issue if needed
 3. Contact: your.email@example.com
 
 ---
 
-**PyTasker** - Making task management simple and efficient! 🎯
+**TaskMate** - Making task management simple and efficient! 🎯

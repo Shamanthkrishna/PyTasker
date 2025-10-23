@@ -1,0 +1,4 @@
+23-10-2025
+Features to be Added
+1) GAuth login with emails ending with @tismotech.com only
+2) Rename PyTasker to something else related to Tismo Task Manager give suggestion and then rename it everywhere

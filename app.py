@@ -44,7 +44,7 @@ def create_app():
         if not User.query.first():
             admin_user = User(
                 username='admin',
-                email='admin@pytasker.com'
+                email='admin@taskmate.com'
             )
             admin_user.set_password('admin123')
             db.session.add(admin_user)
@@ -52,8 +52,8 @@ def create_app():
             # Create sample tasks
             sample_tasks = [
                 Task(
-                    title='Setup PyTasker Project',
-                    description='Initialize the PyTasker task management application with Flask and SQLAlchemy',
+                    title='Setup TaskMate Project',
+                    description='Initialize the TaskMate task management application with Flask and SQLAlchemy',
                     status='Done',
                     priority='High',
                     user_id=1
