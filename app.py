@@ -11,7 +11,17 @@ def create_app():
     
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://tismo_user:admin123@localhost/tismo_tasks'
+    
+    # Database configuration - use environment variable or fallback to SQLite
+    database_uri = os.environ.get('DATABASE_URL')
+    if not database_uri:
+        # Default to SQLite for portability
+        # Ensure instance directory exists
+        instance_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
+        os.makedirs(instance_path, exist_ok=True)
+        database_uri = f'sqlite:///{os.path.join(instance_path, "taskmate.db")}'
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Initialize extensions
@@ -25,7 +35,7 @@ def create_app():
     
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return db.session.get(User, int(user_id))
     
     # Register blueprints
     from routes.main_routes import main_bp

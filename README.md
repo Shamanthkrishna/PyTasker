@@ -116,24 +116,53 @@ taskmate/
 
 ## 🔧 Configuration
 
-### Environment Variables
-Create a `.env` file in the project root:
+### Database Configuration
 
-```env
-SECRET_KEY=your-super-secret-key-here
-FLASK_ENV=development
-DATABASE_URL=sqlite:///database.db
+**By default, TaskMate uses SQLite** which requires no additional setup - perfect for moving between machines!
+
+The application will automatically create a SQLite database in `instance/taskmate.db`.
+
+#### Using MySQL (Optional)
+If you want to use MySQL instead, set the `DATABASE_URL` environment variable:
+
+**On Windows (PowerShell):**
+```powershell
+$env:DATABASE_URL="mysql+pymysql://username:password@localhost/database_name"
 ```
 
-### Database Setup
-The database is automatically created on first run. To reset:
+**On Windows (Command Prompt):**
+```cmd
+set DATABASE_URL=mysql+pymysql://username:password@localhost/database_name
+```
 
+**On macOS/Linux:**
+```bash
+export DATABASE_URL="mysql+pymysql://username:password@localhost/database_name"
+```
+
+Or create a `.env` file:
+```env
+SECRET_KEY=your-super-secret-key-here
+DATABASE_URL=mysql+pymysql://username:password@localhost/database_name
+```
+
+### Database Reset
+To reset the database:
+
+**For SQLite (default):**
 ```bash
 # Delete the database file
-rm database.db
+rm instance/taskmate.db  # macOS/Linux
+del instance\taskmate.db  # Windows
 
 # Restart the application
 python app.py
+```
+
+**For MySQL:**
+```bash
+# Drop and recreate the database in MySQL
+# Then restart the application
 ```
 
 ## 🌐 API Endpoints
